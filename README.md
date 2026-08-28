@@ -1,2 +1,10 @@
-# tdse-tp1_2026-2doC_1C-03
-FIUBA - Electrónica - Taller de Sistemas​​Embebidos - Trabajo Práctico N°: 1 - Diagramas de​ ​Estado - Modelado
+# FIUBA - Electrónica - Taller de Sistemas Embebidos
+
+## Trabajo Práctico N°: 1 - Diagramas de Estado - Modelado
+
+### 2026-2doC - 1C-03
+
+### Responsable de la entrega:
+|  Padrón:| Apellidos, Nombres: | Fecha: | Deadline: |
+|  112250 | DELGADO, Alex       |        | Semana 03 |
+| xxxxxx  | LAIME, Kevin        |        | Semana 04 |
