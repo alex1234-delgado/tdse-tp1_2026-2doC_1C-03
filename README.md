@@ -6,5 +6,5 @@
 
 ### Responsable de la entrega:
 |  Padrón:| Apellidos, Nombres: | Fecha: | Deadline: |
-|  112250 | DELGADO, Alex       |        | Semana 03 |
-| xxxxxx  | LAIME, Kevin        |        | Semana 04 |
+|  112250 | DELGADO, Alex       |04/09/26| Semana 03 |
+|  113724 | PAREDES, Fabian     |11/09/26| Semana 04 |
