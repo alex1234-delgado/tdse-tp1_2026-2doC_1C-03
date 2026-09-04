@@ -1,163 +1,241 @@
-DESCRIPCIÓN DE LA SOLUCIÓN DE COMA ELECTRONICS
-Referencia: 3.1.- TA134 - TdSE - 1er Proyecto
-Intelligent Parking Management System - Automated Parking System
-Parking Ticket Dispenser Machine (Entry)
+# TP1 – Actividad 00 – Problem approach
 
-1. ¿QUÉ ES LA SOLUCIÓN DE COMA ELECTRONICS?
+## 1. Descripción de la solución de COMA Electronics
 
-La solución propuesta por COMA Electronics es un sistema integral de gestión inteligente de estacionamientos (Intelligent Parking Management System).
+La solución de referencia corresponde al **Intelligent Parking Management System** de COMA Electronics, un sistema destinado a la gestión automatizada de estacionamientos.
 
-La arquitectura general contempla cuatro elementos principales:
+La solución completa está compuesta por diferentes elementos:
 
-- Parking System Server → servidor central del sistema.
-- Entry Machine → máquina ubicada en la entrada.
-- Exit Machine → máquina ubicada en la salida.
-- Toll Computer y/o Automatic Pay Station → computadora de cobro y/o estación de pago automático.
+* **Parking System Server:** servidor central encargado de la gestión del sistema.
+* **Entry Machine:** máquina ubicada en el ingreso del estacionamiento.
+* **Exit Machine:** máquina ubicada en el egreso del estacionamiento.
+* **Toll Computer y/o Automatic Pay Station:** computadora de cobro y/o estación automática de pago.
 
-Dentro de las distintas alternativas de máquinas de entrada que ofrece COMA, el proyecto de TdSE toma específicamente como referencia la Parking Ticket Dispenser Machine (Entry), es decir, la máquina ubicada en la entrada que entrega el ticket al vehículo.
+Para el presente proyecto de Taller de Sistemas Embebidos se selecciona específicamente la:
 
-2. ¿QUÉ HACE LA MÁQUINA DE ENTRADA?
+**Parking Ticket Dispenser Machine (Entry)**
 
-Conceptualmente, la Parking Ticket Dispenser Machine controla el acceso de un vehículo al estacionamiento.
+Esta máquina constituye el sistema de entrada del estacionamiento y permite gestionar el acceso de los vehículos.
 
-Su funcionamiento puede entenderse como una secuencia:
+El funcionamiento general puede representarse conceptualmente como:
 
-Vehículo llega → detección → solicitud de ticket → entrega/validación del ticket → apertura de barrera → ingreso del vehículo → cierre de barrera.
+```
+Vehículo llega
+      ↓
+Detección del vehículo
+      ↓
+Solicitud de ingreso
+      ↓
+Generación / entrega del ticket
+      ↓
+Apertura de la barrera
+      ↓
+Ingreso del vehículo
+      ↓
+Detección del paso del vehículo
+      ↓
+Cierre de la barrera
+```
 
-El documento plantea que esta parte del sistema debe ser modelada y desarrollada como un sistema embebido, separando el comportamiento en tres grandes grupos:
+---
 
-SENSORES
+## 2. Descripción de la implementación de Parking Ticket Dispenser Machine (Entry)
 
-Son las entradas que permiten conocer qué está sucediendo en el sistema.
+La implementación propuesta consiste en desarrollar una versión simplificada de la **Parking Ticket Dispenser Machine (Entry)** utilizando un sistema embebido.
 
-Por ejemplo:
-- Camera
-- Button
-- Sensor coil
+El comportamiento se divide en tres módulos principales:
 
-El proyecto contempla que, si no se dispone de los sensores reales, puedan ser reemplazados por dispositivos simples de entrada digital:
+```
+                 PARKING TICKET DISPENSER
+                         (ENTRY)
+                              |
+             +----------------+----------------+
+             |                |                |
+          SENSORS           SYSTEM         ACTUATORS
+             |                |                |
+          Escrutar          Procesar         Actuar
+```
 
-- Camera → llave ON/OFF
-- Button → pulsador
-- Sensor coil → llave ON/OFF
+### 2.1. Módulo Sensors
 
-SISTEMA
+El módulo **Sensors** se encarga de escrutar las entradas digitales del sistema y detectar los cambios producidos en los sensores.
 
-Es la parte lógica que recibe la información de los sensores, procesa los eventos y determina qué acción debe realizarse.
+Los sensores considerados en la solución son:
 
-La consigna propone una estructura de aplicación modular, resumida como:
+* **Camera**
+* **Button**
+* **Sensor Coil**
 
-Escrutar → Procesar → Actuar
+El módulo Sensors debe ejecutarse periódicamente mediante una tarea temporizada con un período de **1 ms**.
 
-Los distintos módulos deben comunicarse y sincronizarse mediante mensajes.
+Su función principal es detectar los eventos producidos por los sensores y comunicar dichos eventos al módulo System.
 
-ACTUADORES
+---
 
-Son los elementos que producen una acción física.
+### 2.2. Módulo System
 
-El ejemplo principal es:
+El módulo **System** representa la lógica de control de la máquina de entrada.
 
-- Barrier → barrera de acceso.
+Su función es procesar los eventos recibidos desde Sensors y determinar las acciones que deben realizarse sobre los actuadores.
 
-Para el prototipo, si no se dispone del actuador real, la barrera puede representarse mediante un LED.
+Entre las acciones posibles se encuentran:
 
-3. ¿CÓMO SE LLEVA COMA ELECTRONICS AL PROYECTO DE TdSE?
+* gestionar la solicitud de ingreso;
+* gestionar la entrega del ticket;
+* controlar el estado de la barrera;
+* controlar las indicaciones del sistema;
+* coordinar el funcionamiento de los diferentes elementos.
 
-La idea no es copiar toda la solución comercial de COMA, sino tomar una parte de ella y construir un Producto Mínimo Viable (MVP).
+El módulo System también debe ejecutarse periódicamente mediante una tarea temporizada de **1 ms**.
 
-El documento indica que se debe elegir una parte del sistema para implementarla y utilizarla para:
+La comunicación entre los módulos se realiza mediante **mensajes/eventos**.
 
-- editar el modelo de comportamiento;
-- verificarlo;
-- validarlo;
-- codificarlo;
-- depurarlo.
+---
 
-Luego, cada módulo desarrollado se integra progresivamente en la primera versión de la aplicación mediante un SDK.
+### 2.3. Módulo Actuator
 
-Por lo tanto, el proyecto queda conceptualmente así:
+El módulo **Actuator** se encarga de actuar sobre las salidas del sistema de acuerdo con las órdenes generadas por System.
 
-PARKING SYSTEM
-        |
-   +----+----+
-   |         |
-ENTRADA    SALIDA
-   |
-   v
-Parking Ticket
-Dispenser Machine
-   |
-   +-- Sensores
-   |    +-- Camera
-   |    +-- Button
-   |    +-- Sensor coil
-   |
-   +-- Sistema
-   |    +-- Lógica de control
-   |
-   +-- Actuadores
-        +-- Barrier
+Los actuadores reales considerados son:
 
-4. UNA CUESTIÓN MUY IMPORTANTE: EL COMPORTAMIENTO DEBE SER NO BLOQUEANTE
+* **Display**
+* **Printer**
+* **Barrier**
+* **Server**
 
-Este es uno de los puntos fundamentales de la consigna.
+El módulo Actuator también debe ejecutarse mediante una tarea temporizada con un período de **1 ms**.
 
-El sistema debe ejecutar sus tareas cíclicamente cada 1 ms, pero las tareas deben ser no bloqueantes. El documento indica que ningún módulo debe apropiarse de la CPU y que el código bloqueante es inaceptable.
+Su función consiste en transformar las órdenes provenientes del sistema en acciones sobre las salidas correspondientes.
 
-Esto significa que no conviene implementar algo del estilo:
+---
 
-esperar vehículo
-    ↓
-esperar botón
-    ↓
-esperar ticket
-    ↓
-abrir barrera
-    ↓
-esperar vehículo
+## 3. Arquitectura modular
 
-con esperas que detengan al procesador.
+La aplicación se organiza siguiendo la estructura:
 
-La idea es más bien:
+```
+ESCRUTAR → PROCESAR → ACTUAR
+   |           |          |
+ Sensors     System     Actuator
+```
 
+El módulo **Sensors** obtiene información de las entradas.
+
+El módulo **System** procesa esa información y determina qué debe hacer el sistema.
+
+El módulo **Actuator** ejecuta las acciones correspondientes sobre las salidas.
+
+Los módulos se comunican y sincronizan mediante **mensajes/eventos**.
+
+Cada módulo funciona como una tarea independiente y temporizada, con un período de actualización de **1 ms**.
+
+---
+
+## 4. Modelos de comportamiento
+
+Para describir el comportamiento de la implementación se utilizarán tres modelos de máquina de estados:
+
+### Sensor Statechart
+
+Representa el comportamiento del módulo **Sensors**.
+
+Su función es escrutar las entradas digitales, detectar cambios de estado y generar los eventos correspondientes para el módulo System.
+
+### System Statechart
+
+Representa el comportamiento del módulo **System**.
+
+Su función es procesar los eventos provenientes de Sensors y determinar las acciones necesarias para controlar el sistema.
+
+### Actuator Statechart
+
+Representa el comportamiento del módulo **Actuator**.
+
+Su función es recibir las órdenes generadas por System y controlar las salidas correspondientes.
+
+La estructura general es:
+
+```
+             +----------------+
+             |     SENSORS    |
+             |    Statechart  |
+             +-------+--------+
+                     |
+                 Eventos
+                     ↓
+             +----------------+
+             |     SYSTEM     |
+             |    Statechart  |
+             +-------+--------+
+                     |
+                 Acciones
+                     ↓
+             +----------------+
+             |    ACTUATOR    |
+             |    Statechart  |
+             +----------------+
+```
+
+---
+
+## 5. Sustitución de sensores y actuadores para el prototipo
+
+Para facilitar la implementación del MVP, los sensores y actuadores reales pueden ser reemplazados por elementos simples de entrada y salida digital.
+
+### Sensores
+
+| Elemento real | Sustituto para el prototipo |
+| ------------- | --------------------------- |
+| Camera        | Llave ON/OFF                |
+| Button        | Pulsador                    |
+| Sensor Coil   | Llave ON/OFF                |
+
+### Actuadores
+
+| Elemento real | Sustituto para el prototipo |
+| ------------- | --------------------------- |
+| Display       | LED                         |
+| Printer       | LED                         |
+| Barrier       | LED                         |
+| Server        | LED                         |
+
+De esta manera, es posible desarrollar y verificar la lógica de funcionamiento del sistema sin disponer de los dispositivos comerciales reales.
+
+---
+
+## 6. Requisitos de ejecución
+
+Los módulos deben implementarse como tareas temporizadas con un período de **1 ms**.
+
+La ejecución debe ser:
+
+* cíclica;
+* periódica;
+* no bloqueante;
+* cooperativa.
+
+Ningún módulo debe apropiarse de la CPU durante un tiempo prolongado.
+
+Por lo tanto, no se deben utilizar esperas bloqueantes que impidan la ejecución de los demás módulos.
+
+El funcionamiento general debe seguir:
+
+```
 Cada 1 ms:
 
-    Sensor → leer estado
+    Sensors
        ↓
-    Sistema → procesar evento
+    escrutar entradas
        ↓
-    Actuador → actualizar salida
+    generar eventos
        ↓
-    siguiente módulo
-
-Así, todos los módulos tienen oportunidad de ejecutarse y el sistema mantiene un comportamiento cooperativo.
-
-5. ¿CUÁL ES ENTONCES LA SOLUCIÓN QUE PROPONE EL PROYECTO?
-
-Podemos resumirla de esta manera:
-
-COMA Electronics aporta el modelo de referencia comercial de un sistema automatizado de estacionamiento.
-
-TdSE toma solamente la máquina de entrada, la Parking Ticket Dispenser Machine, y la transforma en un prototipo de sistema embebido.
-
-El estudiante debe construir una versión funcional basada en:
-
-Entradas → procesamiento → salidas
-
-donde:
-
-Bloque                  Referencia COMA              Prototipo TdSE
----------------------------------------------------------------------------
-Detección vehículo      Camera / Sensor coil        Llave ON/OFF
-Solicitud               Button                      Pulsador
-Control                 Sistema                     Software embebido
-Barrera                 Barrier                     LED
-Ejecución               Controlador                 Tareas cada 1 ms
-Comunicación            Módulos                     Mensajes
-Objetivo                Sistema comercial           MVP funcional
-
-Esto coincide con el enfoque general del proyecto: desarrollar una solución funcional y lo más simple posible, con la documentación y metodología correspondientes.
-
-EN UNA FRASE
-
-La solución de COMA Electronics que sirve de referencia es un sistema automatizado de gestión de estacionamientos, y el proyecto de TdSE implementa como MVP la máquina de entrada que detecta el vehículo, recibe la solicitud, gestiona el ticket y controla la barrera mediante una arquitectura modular de sensores, sistema y actuadores.
+    System
+       ↓
+    procesar eventos
+       ↓
+    generar acciones
+       ↓
+    Actuator
+       ↓
+    actualizar salidas
+```
