@@ -65,12 +65,12 @@ Durante los estados `ST_BTN_FALLING` y `ST_BTN_RISING` se utiliza `DEL_BTN_DEBOU
 | Current State | Event | [Guard] | Next State | Actions |
 |---|---|---|---|---|
 | `ST_BTN_UP` | `EV_BTN_NOT_PRESSED` | — | `ST_BTN_UP` | — |
-| `ST_BTN_UP` | `EV_BTN_PRESSED` | — | `ST_BTN_FALLING` | `DEL_BTN_DEBOUNCE = 50` |
+| `ST_BTN_UP` | `EV_BTN_PRESSED` | — | `ST_BTN_FALLING` | `DEL_BTN_DEBOUNCE_50` |
 | `ST_BTN_FALLING` | `tick` | `DEL_BTN_DEBOUNCE > 1` | `ST_BTN_FALLING` | `DEL_BTN_DEBOUNCE--` |
 | `ST_BTN_FALLING` | `tick` | `DEL_BTN_DEBOUNCE == 1` | `ST_BTN_DOWN` | `DEL_BTN_DEBOUNCE = 0; EV_SYS_BTN_PRESSED` |
 | `ST_BTN_FALLING` | `EV_BTN_NOT_PRESSED` | — | `ST_BTN_UP` | `DEL_BTN_DEBOUNCE = 0` |
 | `ST_BTN_DOWN` | `EV_BTN_PRESSED` | — | `ST_BTN_DOWN` | — |
-| `ST_BTN_DOWN` | `EV_BTN_NOT_PRESSED` | — | `ST_BTN_RISING` | `DEL_BTN_DEBOUNCE = 50` |
+| `ST_BTN_DOWN` | `EV_BTN_NOT_PRESSED` | — | `ST_BTN_RISING` | `DEL_BTN_DEBOUNCE_50` |
 | `ST_BTN_RISING` | `tick` | `DEL_BTN_DEBOUNCE > 1` | `ST_BTN_RISING` | `DEL_BTN_DEBOUNCE--` |
 | `ST_BTN_RISING` | `tick` | `DEL_BTN_DEBOUNCE == 1` | `ST_BTN_UP` | `DEL_BTN_DEBOUNCE = 0; EV_SYS_BTN_NOT_PRESSED` |
 | `ST_BTN_RISING` | `EV_BTN_PRESSED` | — | `ST_BTN_DOWN` | `DEL_BTN_DEBOUNCE = 0` |
@@ -81,7 +81,7 @@ Durante los estados `ST_BTN_FALLING` y `ST_BTN_RISING` se utiliza `DEL_BTN_DEBOU
 
 Es el estado estable correspondiente al botón no presionado.
 
-Cuando se detecta `EV_BTN_PRESSED`, se inicia el período de antirrebote cargando `DEL_BTN_DEBOUNCE = 50` y se pasa a `ST_BTN_FALLING`.
+Cuando se detecta `EV_BTN_PRESSED`, se inicia el período de antirrebote cargando `DEL_BTN_DEBOUNCE_50` y se pasa a `ST_BTN_FALLING`.
 
 #### `ST_BTN_FALLING`
 
@@ -97,7 +97,7 @@ Si durante la espera aparece `EV_BTN_NOT_PRESSED`, el cambio no se valida y se r
 
 Es el estado estable correspondiente al botón presionado.
 
-Cuando se detecta `EV_BTN_NOT_PRESSED`, se inicia nuevamente el período de antirrebote cargando `DEL_BTN_DEBOUNCE = 50` y se pasa a `ST_BTN_RISING`.
+Cuando se detecta `EV_BTN_NOT_PRESSED`, se inicia nuevamente el período de antirrebote cargando `DEL_BTN_DEBOUNCE_50` y se pasa a `ST_BTN_RISING`.
 
 #### `ST_BTN_RISING`
 
