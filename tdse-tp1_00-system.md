@@ -32,3 +32,13 @@ actuadores.
 
 La implementación se ejecuta mediante un módulo de código C temporizado
 (Update by Time Code), con un período de 1 mS.
+
+## TABLA DE ESTADOS Y EXCITACIONES DE SYSTEM 
+
+| Current State            | Event                | [Guard] | Next State               | Actions                                    |
+| :----------------------- | :------------------- | :------ | :----------------------- | :----------------------------------------- |
+| `ST_SYS_IDLE`            | `EV_SYS_CAR_ARRIVES` | —       | `ST_SYS_WAIT_BUTTON`     | `EV_ACT_WELCOME`                           |
+| `ST_SYS_WAIT_BUTTON`     | `EV_SYS_BTN_PRESSED` | —       | `ST_SYS_WAIT_CAR_LEAVES` | `EV_ACT_PRINT_TICKET; EV_ACT_OPEN_BARRIER` |
+| `ST_SYS_WAIT_CAR_LEAVES` | `EV_SYS_CAR_LEAVES`  | —       | `ST_SYS_CAR_INSIDE`      | `EV_ACT_CLOSE_BARRIER; EV_ACT_CAR_INSIDE`  |
+| `ST_SYS_CAR_INSIDE`      | —                    | —       | `ST_SYS_CAR_INSIDE`      | —                                          |
+
