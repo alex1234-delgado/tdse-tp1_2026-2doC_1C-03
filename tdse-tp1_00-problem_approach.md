@@ -19,7 +19,7 @@ Esta máquina constituye el sistema de entrada del estacionamiento y permite ges
 
 El funcionamiento general puede representarse conceptualmente como:
 
-```
+```text
 Vehículo llega
       ↓
 Detección del vehículo
