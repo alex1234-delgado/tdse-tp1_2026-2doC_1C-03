@@ -17,137 +17,68 @@
             "text": "sensor_statechart Export"
           },
           "specification": {
-            "text": "@EventDriven\n@SuperSteps(no)\n\ninterface:\n    in event in_raw_pressed\n    in event in_raw_released\n    out event EV_BTN_PRESSED\n    out event EV_BTN_RELEASED\n    var tick : integer = 0\n    const DEL_BTN_NAME : integer = 20"
+            "text": "@EventDriven\r\n@SuperSteps(no)\r\n\r\ninterface:\r\n    in event EV_BTN_NOT_PRESSED\r\n    in event EV_BTN_PRESSED\r\n    in event tick\r\n\r\n    out event EV_SYS_BTN_NOT_PRESSED\r\n    out event EV_SYS_BTN_PRESSED\r\n\r\n    var DEL_BTN_DEBOUNCE : integer = 0"
           }
         },
         "z": 1
       },
       {
         "position": {
-          "x": -30,
-          "y": 450
+          "x": -40,
+          "y": 1050
         },
         "size": {
-          "height": 98,
-          "width": 97
+          "height": 120,
+          "width": 140
         },
         "type": "State",
         "attrs": {
           "name": {
-            "text": "BUTTON_FALLING",
+            "text": "ST_BTN_RISING",
             "fontSize": 11
           }
         },
-        "id": "94b522eb-31d9-4784-b7e2-ee0503063a51",
-        "z": 43
-      },
-      {
-        "position": {
-          "x": -30,
-          "y": 690
-        },
-        "size": {
-          "height": 96,
-          "width": 93
-        },
-        "type": "State",
-        "attrs": {
-          "name": {
-            "text": "BUTTON_DOWN",
-            "fontSize": 11
-          }
-        },
-        "id": "4a477e98-29a7-48b0-a8ee-725dace67cb0",
-        "z": 50
-      },
-      {
-        "type": "Transition",
-        "attrs": {},
-        "source": {
-          "id": "94b522eb-31d9-4784-b7e2-ee0503063a51"
-        },
-        "target": {
-          "id": "4a477e98-29a7-48b0-a8ee-725dace67cb0",
-          "anchor": {
-            "name": "topLeft",
-            "args": {
-              "dx": "64.516%",
-              "dy": "0%",
-              "rotate": true
-            }
-          },
-          "priority": true
-        },
-        "connector": {
-          "name": "rounded"
-        },
-        "labels": [
-          {
-            "attrs": {
-              "text": {
-                "text": "after (DEL_BTN_NAME) ms / raise EV_BTN_PRESSED"
-              }
-            },
-            "position": {}
-          },
-          {
-            "attrs": {
-              "label": {
-                "text": "1"
-              }
-            }
-          },
-          {
-            "attrs": {}
-          },
-          {
-            "attrs": {}
-          }
-        ],
-        "id": "50e228e4-61e3-4288-949a-60a85571a25d",
-        "z": 51,
-        "router": {
-          "name": "orthogonal"
-        },
-        "vertices": [
-          {
-            "x": 30,
-            "y": 570
-          }
+        "id": "c9847c50-dc72-44d2-8386-9481fbdf86e5",
+        "z": 76,
+        "embeds": [
+          "e2020032-f17f-4e9e-86cb-ed94f962b876"
         ]
       },
       {
         "position": {
-          "x": -300,
-          "y": 690
+          "x": -40,
+          "y": 470
         },
         "size": {
-          "height": 94,
-          "width": 89
+          "height": 120,
+          "width": 140
         },
         "type": "State",
         "attrs": {
           "name": {
-            "text": "BUTTON_RISING",
+            "text": "ST_BTN_UP",
             "fontSize": 11
           }
         },
-        "id": "f0506aa0-9b18-4992-a113-63eba6ad1667",
-        "z": 52
+        "id": "422692f4-3079-4b2e-9412-4081a6faf7da",
+        "z": 88,
+        "embeds": [
+          "253d0559-2f0d-4665-8f9a-3ce73d2bbc34"
+        ]
       },
       {
         "type": "Transition",
         "attrs": {},
         "source": {
-          "id": "4a477e98-29a7-48b0-a8ee-725dace67cb0"
+          "id": "c9847c50-dc72-44d2-8386-9481fbdf86e5"
         },
         "target": {
-          "id": "f0506aa0-9b18-4992-a113-63eba6ad1667",
+          "id": "422692f4-3079-4b2e-9412-4081a6faf7da",
           "anchor": {
             "name": "topLeft",
             "args": {
-              "dx": "11.236%",
-              "dy": "46.809%",
+              "dx": "0%",
+              "dy": "50%",
               "rotate": true
             }
           },
@@ -160,82 +91,12 @@
           {
             "attrs": {
               "text": {
-                "text": "in_raw_released / tick = 0"
-              }
-            },
-            "position": {}
-          },
-          {
-            "attrs": {
-              "label": {
-                "text": "1"
-              }
-            }
-          },
-          {
-            "attrs": {}
-          },
-          {
-            "attrs": {}
-          }
-        ],
-        "id": "c007d0c2-1961-4b25-8b98-41702489c605",
-        "z": 53,
-        "router": {
-          "name": "orthogonal"
-        },
-        "vertices": []
-      },
-      {
-        "position": {
-          "x": -290,
-          "y": 450
-        },
-        "size": {
-          "height": 99,
-          "width": 91
-        },
-        "type": "State",
-        "attrs": {
-          "name": {
-            "text": "BUTTON_UP",
-            "fontSize": 11
-          }
-        },
-        "id": "deea140b-01ae-4fa3-95ce-5f13ece54024",
-        "z": 56
-      },
-      {
-        "type": "Transition",
-        "attrs": {},
-        "source": {
-          "id": "f0506aa0-9b18-4992-a113-63eba6ad1667"
-        },
-        "target": {
-          "id": "deea140b-01ae-4fa3-95ce-5f13ece54024",
-          "anchor": {
-            "name": "topLeft",
-            "args": {
-              "dx": "43.956%",
-              "dy": "90.909%",
-              "rotate": true
-            }
-          },
-          "priority": true
-        },
-        "connector": {
-          "name": "rounded"
-        },
-        "labels": [
-          {
-            "attrs": {
-              "text": {
-                "text": "after (DEL_BTN_NAME) ms / raise EV_BTN_RELEASED"
+                "text": "tick [DEL_BTN_DEBOUNCE == 1] /\r\nDEL_BTN_DEBOUNCE = 0;\r\nraise EV_SYS_BTN_NOT_PRESSED"
               }
             },
             "position": {
-              "distance": 0.4946157764164715,
-              "offset": -35.000000000000014,
+              "distance": 0.5103859190055776,
+              "offset": 105,
               "angle": 0
             }
           },
@@ -253,26 +114,40 @@
             "attrs": {}
           }
         ],
-        "id": "86a410f1-6feb-40bd-92ed-e5da08676820",
-        "z": 57,
+        "id": "d337ca14-a8c3-42cb-9776-a0b50086e0d6",
+        "z": 89,
         "router": {
           "name": "orthogonal"
         },
-        "vertices": []
+        "vertices": [
+          {
+            "x": -300,
+            "y": 1120
+          }
+        ]
       },
       {
         "type": "Transition",
         "attrs": {},
         "source": {
-          "id": "deea140b-01ae-4fa3-95ce-5f13ece54024"
-        },
-        "target": {
-          "id": "94b522eb-31d9-4784-b7e2-ee0503063a51",
+          "id": "422692f4-3079-4b2e-9412-4081a6faf7da",
           "anchor": {
             "name": "topLeft",
             "args": {
-              "dx": "14.433%",
-              "dy": "40.816%",
+              "dx": "100%",
+              "dy": "83.333%",
+              "rotate": true
+            }
+          },
+          "priority": true
+        },
+        "target": {
+          "id": "422692f4-3079-4b2e-9412-4081a6faf7da",
+          "anchor": {
+            "name": "topLeft",
+            "args": {
+              "dx": "92.857%",
+              "dy": "25%",
               "rotate": true
             }
           },
@@ -285,10 +160,99 @@
           {
             "attrs": {
               "text": {
-                "text": "in_raw_pressed / tick = 0"
+                "text": "EV_BTN_NOT_PRESSED"
               }
             },
-            "position": {}
+            "position": {
+              "offset": 55,
+              "angle": 0
+            }
+          },
+          {
+            "attrs": {
+              "label": {
+                "text": "2"
+              }
+            }
+          },
+          {
+            "attrs": {}
+          },
+          {
+            "attrs": {}
+          }
+        ],
+        "id": "253d0559-2f0d-4665-8f9a-3ce73d2bbc34",
+        "z": 89,
+        "router": {
+          "name": "orthogonal"
+        },
+        "vertices": [
+          {
+            "x": 130,
+            "y": 570
+          },
+          {
+            "x": 130,
+            "y": 500
+          }
+        ],
+        "parent": "422692f4-3079-4b2e-9412-4081a6faf7da"
+      },
+      {
+        "position": {
+          "x": -40,
+          "y": 640
+        },
+        "size": {
+          "height": 120,
+          "width": 140
+        },
+        "type": "State",
+        "attrs": {
+          "name": {
+            "text": "ST_BTN_FALLING",
+            "fontSize": 11
+          }
+        },
+        "id": "124dfe15-245e-498f-ae37-b7000afebe10",
+        "z": 101,
+        "embeds": [
+          "4a021abc-b0a7-4201-8597-31242bcd5c1c"
+        ]
+      },
+      {
+        "type": "Transition",
+        "attrs": {},
+        "source": {
+          "id": "422692f4-3079-4b2e-9412-4081a6faf7da"
+        },
+        "target": {
+          "id": "124dfe15-245e-498f-ae37-b7000afebe10",
+          "anchor": {
+            "name": "topLeft",
+            "args": {
+              "dx": "28.571%",
+              "dy": "0%",
+              "rotate": true
+            }
+          },
+          "priority": true
+        },
+        "connector": {
+          "name": "rounded"
+        },
+        "labels": [
+          {
+            "attrs": {
+              "text": {
+                "text": "EV_BTN_PRESSED / DEL_BTN_DEBOUNCE = 50"
+              }
+            },
+            "position": {
+              "offset": 115,
+              "angle": 0
+            }
           },
           {
             "attrs": {
@@ -304,8 +268,72 @@
             "attrs": {}
           }
         ],
-        "id": "682b82f9-515b-49ee-b98a-6fb0a31a923b",
-        "z": 57,
+        "id": "a98b3517-c270-4357-ace0-b38017bf4f68",
+        "z": 102,
+        "router": {
+          "name": "orthogonal"
+        },
+        "vertices": []
+      },
+      {
+        "type": "Transition",
+        "attrs": {},
+        "source": {
+          "id": "124dfe15-245e-498f-ae37-b7000afebe10",
+          "anchor": {
+            "name": "topLeft",
+            "args": {
+              "dx": "71.429%",
+              "dy": "0%",
+              "rotate": true
+            }
+          },
+          "priority": true
+        },
+        "target": {
+          "id": "422692f4-3079-4b2e-9412-4081a6faf7da",
+          "anchor": {
+            "name": "topLeft",
+            "args": {
+              "dx": "71.429%",
+              "dy": "100%",
+              "rotate": true
+            }
+          },
+          "priority": true
+        },
+        "connector": {
+          "name": "rounded"
+        },
+        "labels": [
+          {
+            "attrs": {
+              "text": {
+                "text": "EV_BTN_NOT_PRESSED / \nDEL_BTN_DEBOUNCE = 0"
+              }
+            },
+            "position": {
+              "distance": 0.548094482421875,
+              "offset": 65.07637023925781,
+              "angle": 0
+            }
+          },
+          {
+            "attrs": {
+              "label": {
+                "text": "2"
+              }
+            }
+          },
+          {
+            "attrs": {}
+          },
+          {
+            "attrs": {}
+          }
+        ],
+        "id": "cbc7b504-e637-4c70-bef7-2a0061c46429",
+        "z": 102,
         "router": {
           "name": "orthogonal"
         },
@@ -313,8 +341,28 @@
       },
       {
         "position": {
-          "x": -370,
-          "y": 490
+          "x": -40,
+          "y": 840
+        },
+        "size": {
+          "height": 120,
+          "width": 140
+        },
+        "type": "State",
+        "attrs": {
+          "name": {
+            "text": "ST_BTN_DOWN",
+            "fontSize": 11
+          }
+        },
+        "id": "8a309cff-84b4-435c-972d-9ee262bad723",
+        "z": 104,
+        "embeds": []
+      },
+      {
+        "position": {
+          "x": 20,
+          "y": 410
         },
         "size": {
           "height": 18,
@@ -323,10 +371,10 @@
         "type": "Entry",
         "entryKind": "Initial",
         "attrs": {},
-        "id": "ae3a986b-a9ab-4b55-8b44-1641b6827c9f",
-        "z": 58,
+        "id": "b338da53-46f2-4631-b8c5-326ba8986aaf",
+        "z": 106,
         "embeds": [
-          "72e59e93-bb22-42bf-a374-9c1b88cf2442"
+          "09d1d7aa-c69f-4990-8213-e961dec00e1f"
         ]
       },
       {
@@ -337,8 +385,8 @@
           "height": 15
         },
         "position": {
-          "x": -370,
-          "y": 505
+          "x": 20,
+          "y": 425
         },
         "attrs": {
           "label": {
@@ -348,23 +396,23 @@
             "textVerticalAnchor": "middle"
           }
         },
-        "id": "72e59e93-bb22-42bf-a374-9c1b88cf2442",
-        "z": 59,
-        "parent": "ae3a986b-a9ab-4b55-8b44-1641b6827c9f"
+        "id": "09d1d7aa-c69f-4990-8213-e961dec00e1f",
+        "z": 107,
+        "parent": "b338da53-46f2-4631-b8c5-326ba8986aaf"
       },
       {
         "type": "Transition",
         "attrs": {},
         "source": {
-          "id": "ae3a986b-a9ab-4b55-8b44-1641b6827c9f"
+          "id": "b338da53-46f2-4631-b8c5-326ba8986aaf"
         },
         "target": {
-          "id": "deea140b-01ae-4fa3-95ce-5f13ece54024",
+          "id": "422692f4-3079-4b2e-9412-4081a6faf7da",
           "anchor": {
             "name": "topLeft",
             "args": {
-              "dx": "0%",
-              "dy": "48.485%",
+              "dx": "50%",
+              "dy": "0%",
               "rotate": true
             }
           },
@@ -392,12 +440,316 @@
             "attrs": {}
           }
         ],
-        "id": "b2645b83-4977-418b-96e5-ac05607152a8",
-        "z": 60,
+        "id": "1c56a5ee-253c-40f3-8a90-57176c65ed4e",
+        "z": 108,
         "router": {
           "name": "orthogonal"
         },
         "vertices": []
+      },
+      {
+        "type": "Transition",
+        "attrs": {},
+        "source": {
+          "id": "c9847c50-dc72-44d2-8386-9481fbdf86e5"
+        },
+        "target": {
+          "id": "c9847c50-dc72-44d2-8386-9481fbdf86e5",
+          "anchor": {
+            "name": "topLeft",
+            "args": {
+              "dx": "100%",
+              "dy": "83.333%",
+              "rotate": true
+            }
+          },
+          "priority": true
+        },
+        "connector": {
+          "name": "rounded"
+        },
+        "labels": [
+          {
+            "attrs": {
+              "text": {
+                "text": "tick [DEL_BTN_DEBOUNCE > 1] / \nDEL_BTN_DEBOUNCE--"
+              }
+            },
+            "position": {
+              "offset": -95,
+              "angle": 0
+            }
+          },
+          {
+            "attrs": {
+              "label": {
+                "text": "2"
+              }
+            }
+          },
+          {
+            "attrs": {}
+          },
+          {
+            "attrs": {}
+          }
+        ],
+        "id": "e2020032-f17f-4e9e-86cb-ed94f962b876",
+        "z": 109,
+        "router": {
+          "name": "orthogonal"
+        },
+        "vertices": [
+          {
+            "x": 130,
+            "y": 1080
+          },
+          {
+            "x": 150,
+            "y": 1110
+          },
+          {
+            "x": 150,
+            "y": 1130
+          },
+          {
+            "x": 130,
+            "y": 1150
+          }
+        ],
+        "parent": "c9847c50-dc72-44d2-8386-9481fbdf86e5"
+      },
+      {
+        "type": "Transition",
+        "attrs": {},
+        "source": {
+          "id": "8a309cff-84b4-435c-972d-9ee262bad723"
+        },
+        "target": {
+          "id": "c9847c50-dc72-44d2-8386-9481fbdf86e5",
+          "anchor": {
+            "name": "topLeft",
+            "args": {
+              "dx": "28.571%",
+              "dy": "0%",
+              "rotate": true
+            }
+          },
+          "priority": true
+        },
+        "connector": {
+          "name": "rounded"
+        },
+        "labels": [
+          {
+            "attrs": {
+              "text": {
+                "text": "EV_BTN_NOT_PRESSED / \nDEL_BTN_DEBOUNCE = 50"
+              }
+            },
+            "position": {
+              "offset": 75,
+              "angle": 0
+            }
+          },
+          {
+            "attrs": {
+              "label": {
+                "text": "1"
+              }
+            }
+          },
+          {
+            "attrs": {}
+          },
+          {
+            "attrs": {}
+          }
+        ],
+        "id": "ee868172-6a62-4741-a8f6-636eeb815c42",
+        "z": 113,
+        "router": {
+          "name": "orthogonal"
+        },
+        "vertices": []
+      },
+      {
+        "type": "Transition",
+        "attrs": {},
+        "source": {
+          "id": "c9847c50-dc72-44d2-8386-9481fbdf86e5"
+        },
+        "target": {
+          "id": "8a309cff-84b4-435c-972d-9ee262bad723",
+          "anchor": {
+            "name": "topLeft",
+            "args": {
+              "dx": "64.286%",
+              "dy": "100%",
+              "rotate": true
+            }
+          },
+          "priority": true
+        },
+        "connector": {
+          "name": "rounded"
+        },
+        "labels": [
+          {
+            "attrs": {
+              "text": {
+                "text": "EV_BTN_PRESSED / \nDEL_BTN_DEBOUNCE = 0"
+              }
+            },
+            "position": {
+              "offset": 65,
+              "angle": 0
+            }
+          },
+          {
+            "attrs": {
+              "label": {
+                "text": "3"
+              }
+            }
+          },
+          {
+            "attrs": {}
+          },
+          {
+            "attrs": {}
+          }
+        ],
+        "id": "f4a40e27-844e-4fab-916e-9917ddc01c6d",
+        "z": 114,
+        "router": {
+          "name": "orthogonal"
+        },
+        "vertices": []
+      },
+      {
+        "type": "Transition",
+        "attrs": {},
+        "source": {
+          "id": "124dfe15-245e-498f-ae37-b7000afebe10"
+        },
+        "target": {
+          "id": "8a309cff-84b4-435c-972d-9ee262bad723",
+          "anchor": {
+            "name": "topLeft",
+            "args": {
+              "dx": "35.714%",
+              "dy": "0%",
+              "rotate": true
+            }
+          },
+          "priority": true
+        },
+        "connector": {
+          "name": "rounded"
+        },
+        "labels": [
+          {
+            "attrs": {
+              "text": {
+                "text": "tick [DEL_BTN_DEBOUNCE == 1] /\r\nDEL_BTN_DEBOUNCE = 0;\r\nraise EV_SYS_BTN_PRESSED"
+              }
+            },
+            "position": {
+              "distance": 0.609375,
+              "offset": -95,
+              "angle": 0
+            }
+          },
+          {
+            "attrs": {
+              "label": {
+                "text": "1"
+              }
+            }
+          },
+          {
+            "attrs": {}
+          },
+          {
+            "attrs": {}
+          }
+        ],
+        "id": "9999998f-8c93-4a4d-af3a-6c0219e0c10c",
+        "z": 115,
+        "router": {
+          "name": "orthogonal"
+        },
+        "vertices": [
+          {
+            "x": 10,
+            "y": 800
+          }
+        ]
+      },
+      {
+        "type": "Transition",
+        "attrs": {},
+        "source": {
+          "id": "124dfe15-245e-498f-ae37-b7000afebe10"
+        },
+        "target": {
+          "id": "124dfe15-245e-498f-ae37-b7000afebe10",
+          "anchor": {
+            "name": "topLeft",
+            "args": {
+              "dx": "100%",
+              "dy": "25%",
+              "rotate": true
+            }
+          },
+          "priority": true
+        },
+        "connector": {
+          "name": "rounded"
+        },
+        "labels": [
+          {
+            "attrs": {
+              "text": {
+                "text": "tick [DEL_BTN_DEBOUNCE > 1] / \nDEL_BTN_DEBOUNCE--"
+              }
+            },
+            "position": {
+              "offset": 95,
+              "angle": 0
+            }
+          },
+          {
+            "attrs": {
+              "label": {
+                "text": "3"
+              }
+            }
+          },
+          {
+            "attrs": {}
+          },
+          {
+            "attrs": {}
+          }
+        ],
+        "id": "4a021abc-b0a7-4201-8597-31242bcd5c1c",
+        "z": 116,
+        "router": {
+          "name": "orthogonal"
+        },
+        "vertices": [
+          {
+            "x": 140,
+            "y": 740
+          },
+          {
+            "x": 140,
+            "y": 710
+          }
+        ],
+        "parent": "124dfe15-245e-498f-ae37-b7000afebe10"
       }
     ]
   },
