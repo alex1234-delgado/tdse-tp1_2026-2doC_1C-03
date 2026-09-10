@@ -17,7 +17,7 @@
             "text": "sensor_statechart Export"
           },
           "specification": {
-            "text": "@EventDriven\r\n@SuperSteps(no)\r\n\r\ninterface:\r\n    in event EV_BTN_NOT_PRESSED\r\n    in event EV_BTN_PRESSED\r\n    in event tick\r\n\r\n    out event EV_SYS_BTN_NOT_PRESSED\r\n    out event EV_SYS_BTN_PRESSED\r\n\r\n    var DEL_BTN_DEBOUNCE : integer = 0"
+            "text": "@EventDriven\r\n@SuperSteps(no)\r\n\r\ninterface:\r\n    in event EV_BTN_UP\r\n    in event EV_BTN_DOWN\r\n    in event tick\r\n\r\n    out event EV_SYS_BTN_UP\r\n    out event EV_SYS_BTN_DOWN\r\n\r\n    var DEL_BTN_DEBOUNCE : integer = 0"
           }
         },
         "z": 1
@@ -47,161 +47,6 @@
       {
         "position": {
           "x": -40,
-          "y": 470
-        },
-        "size": {
-          "height": 120,
-          "width": 140
-        },
-        "type": "State",
-        "attrs": {
-          "name": {
-            "text": "ST_BTN_UP",
-            "fontSize": 11
-          }
-        },
-        "id": "422692f4-3079-4b2e-9412-4081a6faf7da",
-        "z": 88,
-        "embeds": [
-          "253d0559-2f0d-4665-8f9a-3ce73d2bbc34"
-        ]
-      },
-      {
-        "type": "Transition",
-        "attrs": {},
-        "source": {
-          "id": "c9847c50-dc72-44d2-8386-9481fbdf86e5"
-        },
-        "target": {
-          "id": "422692f4-3079-4b2e-9412-4081a6faf7da",
-          "anchor": {
-            "name": "topLeft",
-            "args": {
-              "dx": "0%",
-              "dy": "50%",
-              "rotate": true
-            }
-          },
-          "priority": true
-        },
-        "connector": {
-          "name": "rounded"
-        },
-        "labels": [
-          {
-            "attrs": {
-              "text": {
-                "text": "tick [DEL_BTN_DEBOUNCE == 1] /\r\nDEL_BTN_DEBOUNCE = 0;\r\nraise EV_SYS_BTN_NOT_PRESSED"
-              }
-            },
-            "position": {
-              "distance": 0.5103859190055776,
-              "offset": 105,
-              "angle": 0
-            }
-          },
-          {
-            "attrs": {
-              "label": {
-                "text": "1"
-              }
-            }
-          },
-          {
-            "attrs": {}
-          },
-          {
-            "attrs": {}
-          }
-        ],
-        "id": "d337ca14-a8c3-42cb-9776-a0b50086e0d6",
-        "z": 89,
-        "router": {
-          "name": "orthogonal"
-        },
-        "vertices": [
-          {
-            "x": -300,
-            "y": 1120
-          }
-        ]
-      },
-      {
-        "type": "Transition",
-        "attrs": {},
-        "source": {
-          "id": "422692f4-3079-4b2e-9412-4081a6faf7da",
-          "anchor": {
-            "name": "topLeft",
-            "args": {
-              "dx": "100%",
-              "dy": "83.333%",
-              "rotate": true
-            }
-          },
-          "priority": true
-        },
-        "target": {
-          "id": "422692f4-3079-4b2e-9412-4081a6faf7da",
-          "anchor": {
-            "name": "topLeft",
-            "args": {
-              "dx": "92.857%",
-              "dy": "25%",
-              "rotate": true
-            }
-          },
-          "priority": true
-        },
-        "connector": {
-          "name": "rounded"
-        },
-        "labels": [
-          {
-            "attrs": {
-              "text": {
-                "text": "EV_BTN_NOT_PRESSED"
-              }
-            },
-            "position": {
-              "offset": 55,
-              "angle": 0
-            }
-          },
-          {
-            "attrs": {
-              "label": {
-                "text": "2"
-              }
-            }
-          },
-          {
-            "attrs": {}
-          },
-          {
-            "attrs": {}
-          }
-        ],
-        "id": "253d0559-2f0d-4665-8f9a-3ce73d2bbc34",
-        "z": 89,
-        "router": {
-          "name": "orthogonal"
-        },
-        "vertices": [
-          {
-            "x": 130,
-            "y": 570
-          },
-          {
-            "x": 130,
-            "y": 500
-          }
-        ],
-        "parent": "422692f4-3079-4b2e-9412-4081a6faf7da"
-      },
-      {
-        "position": {
-          "x": -40,
           "y": 640
         },
         "size": {
@@ -220,124 +65,6 @@
         "embeds": [
           "4a021abc-b0a7-4201-8597-31242bcd5c1c"
         ]
-      },
-      {
-        "type": "Transition",
-        "attrs": {},
-        "source": {
-          "id": "422692f4-3079-4b2e-9412-4081a6faf7da"
-        },
-        "target": {
-          "id": "124dfe15-245e-498f-ae37-b7000afebe10",
-          "anchor": {
-            "name": "topLeft",
-            "args": {
-              "dx": "28.571%",
-              "dy": "0%",
-              "rotate": true
-            }
-          },
-          "priority": true
-        },
-        "connector": {
-          "name": "rounded"
-        },
-        "labels": [
-          {
-            "attrs": {
-              "text": {
-                "text": "EV_BTN_PRESSED / DEL_BTN_DEBOUNCE = 50"
-              }
-            },
-            "position": {
-              "offset": 115,
-              "angle": 0
-            }
-          },
-          {
-            "attrs": {
-              "label": {
-                "text": "1"
-              }
-            }
-          },
-          {
-            "attrs": {}
-          },
-          {
-            "attrs": {}
-          }
-        ],
-        "id": "a98b3517-c270-4357-ace0-b38017bf4f68",
-        "z": 102,
-        "router": {
-          "name": "orthogonal"
-        },
-        "vertices": []
-      },
-      {
-        "type": "Transition",
-        "attrs": {},
-        "source": {
-          "id": "124dfe15-245e-498f-ae37-b7000afebe10",
-          "anchor": {
-            "name": "topLeft",
-            "args": {
-              "dx": "71.429%",
-              "dy": "0%",
-              "rotate": true
-            }
-          },
-          "priority": true
-        },
-        "target": {
-          "id": "422692f4-3079-4b2e-9412-4081a6faf7da",
-          "anchor": {
-            "name": "topLeft",
-            "args": {
-              "dx": "71.429%",
-              "dy": "100%",
-              "rotate": true
-            }
-          },
-          "priority": true
-        },
-        "connector": {
-          "name": "rounded"
-        },
-        "labels": [
-          {
-            "attrs": {
-              "text": {
-                "text": "EV_BTN_NOT_PRESSED / \nDEL_BTN_DEBOUNCE = 0"
-              }
-            },
-            "position": {
-              "distance": 0.548094482421875,
-              "offset": 65.07637023925781,
-              "angle": 0
-            }
-          },
-          {
-            "attrs": {
-              "label": {
-                "text": "2"
-              }
-            }
-          },
-          {
-            "attrs": {}
-          },
-          {
-            "attrs": {}
-          }
-        ],
-        "id": "cbc7b504-e637-4c70-bef7-2a0061c46429",
-        "z": 102,
-        "router": {
-          "name": "orthogonal"
-        },
-        "vertices": []
       },
       {
         "position": {
@@ -399,53 +126,6 @@
         "id": "09d1d7aa-c69f-4990-8213-e961dec00e1f",
         "z": 107,
         "parent": "b338da53-46f2-4631-b8c5-326ba8986aaf"
-      },
-      {
-        "type": "Transition",
-        "attrs": {},
-        "source": {
-          "id": "b338da53-46f2-4631-b8c5-326ba8986aaf"
-        },
-        "target": {
-          "id": "422692f4-3079-4b2e-9412-4081a6faf7da",
-          "anchor": {
-            "name": "topLeft",
-            "args": {
-              "dx": "50%",
-              "dy": "0%",
-              "rotate": true
-            }
-          },
-          "priority": true
-        },
-        "connector": {
-          "name": "rounded"
-        },
-        "labels": [
-          {
-            "attrs": {},
-            "position": {}
-          },
-          {
-            "attrs": {
-              "label": {
-                "text": "1"
-              }
-            }
-          },
-          {
-            "attrs": {}
-          },
-          {
-            "attrs": {}
-          }
-        ],
-        "id": "1c56a5ee-253c-40f3-8a90-57176c65ed4e",
-        "z": 108,
-        "router": {
-          "name": "orthogonal"
-        },
-        "vertices": []
       },
       {
         "type": "Transition",
@@ -544,7 +224,7 @@
           {
             "attrs": {
               "text": {
-                "text": "EV_BTN_NOT_PRESSED / \nDEL_BTN_DEBOUNCE = 50"
+                "text": "EV_BTN_UP / \nDEL_BTN_DEBOUNCE = 50"
               }
             },
             "position": {
@@ -598,7 +278,7 @@
           {
             "attrs": {
               "text": {
-                "text": "EV_BTN_PRESSED / \nDEL_BTN_DEBOUNCE = 0"
+                "text": "EV_BTN_DOWN / \nDEL_BTN_DEBOUNCE = 0"
               }
             },
             "position": {
@@ -652,7 +332,7 @@
           {
             "attrs": {
               "text": {
-                "text": "tick [DEL_BTN_DEBOUNCE == 1] /\r\nDEL_BTN_DEBOUNCE = 0;\r\nraise EV_SYS_BTN_PRESSED"
+                "text": "tick [DEL_BTN_DEBOUNCE == 1] /\r\nDEL_BTN_DEBOUNCE = 0;\r\nraise EV_SYS_BTN_DOWN"
               }
             },
             "position": {
@@ -750,6 +430,326 @@
           }
         ],
         "parent": "124dfe15-245e-498f-ae37-b7000afebe10"
+      },
+      {
+        "position": {
+          "x": -40,
+          "y": 469
+        },
+        "size": {
+          "height": 120,
+          "width": 140
+        },
+        "type": "State",
+        "attrs": {
+          "name": {
+            "text": "ST_BTN_UP",
+            "fontSize": 11
+          }
+        },
+        "id": "422692f4-3079-4b2e-9412-4081a6faf7da",
+        "z": 119,
+        "embeds": [
+          "253d0559-2f0d-4665-8f9a-3ce73d2bbc34"
+        ]
+      },
+      {
+        "type": "Transition",
+        "attrs": {},
+        "source": {
+          "id": "b338da53-46f2-4631-b8c5-326ba8986aaf"
+        },
+        "target": {
+          "id": "422692f4-3079-4b2e-9412-4081a6faf7da",
+          "anchor": {
+            "name": "topLeft",
+            "args": {
+              "dx": "50%",
+              "dy": "0%",
+              "rotate": true
+            }
+          },
+          "priority": true
+        },
+        "connector": {
+          "name": "rounded"
+        },
+        "labels": [
+          {
+            "attrs": {},
+            "position": {}
+          },
+          {
+            "attrs": {
+              "label": {
+                "text": "1"
+              }
+            }
+          },
+          {
+            "attrs": {}
+          },
+          {
+            "attrs": {}
+          }
+        ],
+        "id": "1c56a5ee-253c-40f3-8a90-57176c65ed4e",
+        "z": 120,
+        "router": {
+          "name": "orthogonal"
+        },
+        "vertices": []
+      },
+      {
+        "type": "Transition",
+        "attrs": {},
+        "source": {
+          "id": "124dfe15-245e-498f-ae37-b7000afebe10",
+          "anchor": {
+            "name": "topLeft",
+            "args": {
+              "dx": "71.429%",
+              "dy": "0%",
+              "rotate": true
+            }
+          },
+          "priority": true
+        },
+        "target": {
+          "id": "422692f4-3079-4b2e-9412-4081a6faf7da",
+          "anchor": {
+            "name": "topLeft",
+            "args": {
+              "dx": "71.429%",
+              "dy": "100%",
+              "rotate": true
+            }
+          },
+          "priority": true
+        },
+        "connector": {
+          "name": "rounded"
+        },
+        "labels": [
+          {
+            "attrs": {
+              "text": {
+                "text": "EV_BTN_UP / \nDEL_BTN_DEBOUNCE = 0"
+              }
+            },
+            "position": {
+              "distance": 0.548094482421875,
+              "offset": 65.07637023925781,
+              "angle": 0
+            }
+          },
+          {
+            "attrs": {
+              "label": {
+                "text": "2"
+              }
+            }
+          },
+          {
+            "attrs": {}
+          },
+          {
+            "attrs": {}
+          }
+        ],
+        "id": "cbc7b504-e637-4c70-bef7-2a0061c46429",
+        "z": 120,
+        "router": {
+          "name": "orthogonal"
+        },
+        "vertices": []
+      },
+      {
+        "type": "Transition",
+        "attrs": {},
+        "source": {
+          "id": "c9847c50-dc72-44d2-8386-9481fbdf86e5"
+        },
+        "target": {
+          "id": "422692f4-3079-4b2e-9412-4081a6faf7da",
+          "anchor": {
+            "name": "topLeft",
+            "args": {
+              "dx": "0%",
+              "dy": "50%",
+              "rotate": true
+            }
+          },
+          "priority": true
+        },
+        "connector": {
+          "name": "rounded"
+        },
+        "labels": [
+          {
+            "attrs": {
+              "text": {
+                "text": "tick [DEL_BTN_DEBOUNCE == 1] /\r\nDEL_BTN_DEBOUNCE = 0;\r\nraise EV_SYS_BTN_UP"
+              }
+            },
+            "position": {
+              "distance": 0.5103859190055776,
+              "offset": 105,
+              "angle": 0
+            }
+          },
+          {
+            "attrs": {
+              "label": {
+                "text": "1"
+              }
+            }
+          },
+          {
+            "attrs": {}
+          },
+          {
+            "attrs": {}
+          }
+        ],
+        "id": "d337ca14-a8c3-42cb-9776-a0b50086e0d6",
+        "z": 120,
+        "router": {
+          "name": "orthogonal"
+        },
+        "vertices": [
+          {
+            "x": -300,
+            "y": 1120
+          }
+        ]
+      },
+      {
+        "type": "Transition",
+        "attrs": {},
+        "source": {
+          "id": "422692f4-3079-4b2e-9412-4081a6faf7da"
+        },
+        "target": {
+          "id": "124dfe15-245e-498f-ae37-b7000afebe10",
+          "anchor": {
+            "name": "topLeft",
+            "args": {
+              "dx": "28.571%",
+              "dy": "0%",
+              "rotate": true
+            }
+          },
+          "priority": true
+        },
+        "connector": {
+          "name": "rounded"
+        },
+        "labels": [
+          {
+            "attrs": {
+              "text": {
+                "text": "EV_BTN_DOWN / DEL_BTN_DEBOUNCE = 50"
+              }
+            },
+            "position": {
+              "offset": 115,
+              "angle": 0
+            }
+          },
+          {
+            "attrs": {
+              "label": {
+                "text": "1"
+              }
+            }
+          },
+          {
+            "attrs": {}
+          },
+          {
+            "attrs": {}
+          }
+        ],
+        "id": "a98b3517-c270-4357-ace0-b38017bf4f68",
+        "z": 120,
+        "router": {
+          "name": "orthogonal"
+        },
+        "vertices": []
+      },
+      {
+        "type": "Transition",
+        "attrs": {},
+        "source": {
+          "id": "422692f4-3079-4b2e-9412-4081a6faf7da",
+          "anchor": {
+            "name": "topLeft",
+            "args": {
+              "dx": "100%",
+              "dy": "83.333%",
+              "rotate": true
+            }
+          },
+          "priority": true
+        },
+        "target": {
+          "id": "422692f4-3079-4b2e-9412-4081a6faf7da",
+          "anchor": {
+            "name": "topLeft",
+            "args": {
+              "dx": "92.857%",
+              "dy": "25%",
+              "rotate": true
+            }
+          },
+          "priority": true
+        },
+        "connector": {
+          "name": "rounded"
+        },
+        "labels": [
+          {
+            "attrs": {
+              "text": {
+                "text": "EV_BTN_UP"
+              }
+            },
+            "position": {
+              "offset": 55,
+              "angle": 0
+            }
+          },
+          {
+            "attrs": {
+              "label": {
+                "text": "2"
+              }
+            }
+          },
+          {
+            "attrs": {}
+          },
+          {
+            "attrs": {}
+          }
+        ],
+        "id": "253d0559-2f0d-4665-8f9a-3ce73d2bbc34",
+        "z": 120,
+        "router": {
+          "name": "orthogonal"
+        },
+        "vertices": [
+          {
+            "x": 130,
+            "y": 569
+          },
+          {
+            "x": 130,
+            "y": 499
+          }
+        ],
+        "parent": "422692f4-3079-4b2e-9412-4081a6faf7da"
       }
     ]
   },
