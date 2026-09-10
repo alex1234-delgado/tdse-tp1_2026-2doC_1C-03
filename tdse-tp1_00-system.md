@@ -5,14 +5,17 @@
 ### Eventos
 
 Los eventos del modelo System corresponden a mensajes provenientes del
-modelo Sensor.
+modelo Sensors.
 
-Para el caso de un único botón se consideran los siguientes eventos:
+En consecuencia, se consideran los siguientes eventos:
 
 | Evento | Descripción |
 | :----- | :---------- |
-| `EV_SYS_BTN_PRESSED` | Indica que el Sensor detectó y validó que el botón fue presionado. |
-| `EV_SYS_BTN_NOT_PRESSED` | Indica que el Sensor detectó y validó que el botón fue liberado. |
+| `EV_SYS_BTN_DOWN` | Indica que el Sensors detectó y validó que el botón fue presionado. |
+| `EV_SYS_BTN_UP` | Indica que el Sensors detectó y validó que el botón fue liberado. |
+| `EV_SYS_CAR_ARRIVES` | Indica que el Sensors detectó la llegada de un vehículo. |
+| `EV_SYS_CAR_LEAVES` | Indica que Sensors detectó que el vehículo atravesó la barrera. |
+
 
 ### Acciones
 
@@ -25,8 +28,9 @@ modelos Actuator mediante señales/mensajes.
 | `EV_ACT_PRINT_TICKET` | Envía al Printer la orden de imprimir el ticket. |
 | `EV_ACT_OPEN_BARRIER` | Envía al Barrier la orden de abrir la barrera. |
 | `EV_ACT_CLOSE_BARRIER` | Envía al Barrier la orden de cerrar la barrera. |
+| `EV_ACT_CAR_INSIDE` | Envía al Server la indicación de que el vehículo ingresó al estacionamiento. |
 
-El modelo System procesa los eventos provenientes del Sensor y, de acuerdo
+El modelo System procesa los eventos provenientes del Sensors y, de acuerdo
 con el estado del sistema, genera las acciones correspondientes sobre los
 actuadores.
 
@@ -38,7 +42,7 @@ La implementación se ejecuta mediante un módulo de código C temporizado
 | Current State            | Event                | [Guard] | Next State               | Actions                                    |
 | :----------------------- | :------------------- | :------ | :----------------------- | :----------------------------------------- |
 | `ST_SYS_IDLE`            | `EV_SYS_CAR_ARRIVES` | —       | `ST_SYS_WAIT_BUTTON`     | `EV_ACT_WELCOME`                           |
-| `ST_SYS_WAIT_BUTTON`     | `EV_SYS_BTN_PRESSED` | —       | `ST_SYS_WAIT_CAR_LEAVES` | `EV_ACT_PRINT_TICKET; EV_ACT_OPEN_BARRIER` |
+| `ST_SYS_WAIT_BUTTON`     | `EV_SYS_BTN_DOWN` | —       | `ST_SYS_WAIT_CAR_LEAVES` | `EV_ACT_PRINT_TICKET; EV_ACT_OPEN_BARRIER` |
 | `ST_SYS_WAIT_CAR_LEAVES` | `EV_SYS_CAR_LEAVES`  | —       | `ST_SYS_CAR_INSIDE`      | `EV_ACT_CLOSE_BARRIER; EV_ACT_CAR_INSIDE`  |
 | `ST_SYS_CAR_INSIDE`      | —                    | —       | `ST_SYS_CAR_INSIDE`      | —                                          |
 

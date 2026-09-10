@@ -14,10 +14,10 @@
         "id": "00ffb6d1-d225-4bc0-8b73-7df9987f57b7",
         "attrs": {
           "name": {
-            "text": "system_statechart Export"
+            "text": "System_statechart Export"
           },
           "specification": {
-            "text": "@EventDriven\r\n@SuperSteps(no)\r\n\r\ninterface:\r\n    in event EV_SYS_CAR_ARRIVES\r\n    in event EV_SYS_CAR_LEAVES\r\n    in event EV_SYS_BTN_PRESSED\r\n    in event EV_SYS_BTN_NOT_PRESSED\r\n\r\n    out event EV_ACT_WELCOME\r\n    out event EV_ACT_PRINT_TICKET\r\n    out event EV_ACT_OPEN_BARRIER\r\n    out event EV_ACT_CLOSE_BARRIER"
+            "text": "@EventDriven\r\n@SuperSteps(no)\r\n\r\ninterface:\r\n    in event EV_SYS_CAR_ARRIVES\r\n    in event EV_SYS_CAR_LEAVES\r\n    in event EV_SYS_BTN_DOWN\r\n    in event EV_SYS_BTN_UP\r\n\r\n    out event EV_ACT_WELCOME\r\n    out event EV_ACT_PRINT_TICKET\r\n    out event EV_ACT_OPEN_BARRIER\r\n    out event EV_ACT_CLOSE_BARRIER\r\n    out event EV_ACT_CAR_INSIDE\r\n    "
           }
         },
         "z": 1
@@ -28,8 +28,8 @@
           "y": -300
         },
         "size": {
-          "width": 250,
-          "height": 230
+          "height": 230,
+          "width": 250
         },
         "type": "State",
         "attrs": {
@@ -246,7 +246,7 @@
           {
             "attrs": {
               "text": {
-                "text": "EV_SYS_BTN_PRESSED /\r\nraise EV_ACT_PRINT_TICKET;\r\nraise EV_ACT_OPEN_BARRIER"
+                "text": "EV_SYS_BTN_DOWN /\r\nraise EV_ACT_PRINT_TICKET;\r\nraise EV_ACT_OPEN_BARRIER"
               }
             },
             "position": {
@@ -319,7 +319,7 @@
           {
             "attrs": {
               "text": {
-                "text": "EV_SYS_CAR_LEAVES /\r\nraise EV_ACT_CLOSE_BARRIER"
+                "text": "EV_SYS_CAR_LEAVES /\r\nraise EV_ACT_CLOSE_BARRIER;\r\nraise EV_ACT_CAR_INSIDE"
               }
             },
             "position": {
@@ -381,8 +381,8 @@
           "getters": false
         },
         "IdentifierSettings": {
-          "moduleName": "SystemStatecheart",
-          "statemachinePrefix": "systemStatecheart",
+          "moduleName": "SystemStatechartExport",
+          "statemachinePrefix": "systemStatechartExport",
           "separator": "_",
           "headerFilenameExtension": "h",
           "sourceFilenameExtension": "c"
