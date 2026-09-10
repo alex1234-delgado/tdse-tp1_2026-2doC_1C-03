@@ -29,37 +29,30 @@ sobre los dos LEDs que representan la barrera.
 | `LED1_TOGGLE` | Invierte el estado del LED 1. |
 | `LED2_TOGGLE` | Invierte el estado del LED 2. |
 
-Durante el estado transitorio, los dos LEDs titilan de forma
-asincrónica mediante diferentes tiempos de actualización.
+Durante el estado transitorio, los dos LEDs cambian de estado cada 100 ms. El LED 2 comienza en el estado contrario al LED 1, generando un titileo desfasado entre ambos.
 
 Se consideran las siguientes variables de control:
 
 | Variable | Descripción |
 | :------- | :---------- |
 | `DEL_ACT_TRANSITION` | Tiempo restante de la transición de la barrera. |
-| `DEL_LED1_BLINK` | Tiempo restante para cambiar el estado del LED 1. |
-| `DEL_LED2_BLINK` | Tiempo restante para cambiar el estado del LED 2. |
+| `DEL_LED_BLINK` | Tiempo restante para cambiar el estado del LED 1 y 2. |
 
-Para la transición de la barrera se considera un tiempo de 1 s.
-El LED 1 cambia de estado cada 100 mS y el LED 2 cambia de estado cada
-137 mS, produciendo un titileo asincrónico.
+Para la transición de la barrera se considera un tiempo de 1,5 s.
 
 La ejecución del módulo es cíclica y no bloqueante, con un período de 1 mS.
-
 
 ## Estados y Excitaciones
 
 | Current State | Event | [Guard] | Next State | Actions |
 | :------------ | :---- | :------ | :--------- | :------ |
-| `ST_ACT_OFF` | `EV_ACT_OPEN_BARRIER` | — | `ST_ACT_TRANSITION_OPEN` | `LED1_OFF; LED2_OFF; DEL_ACT_TRANSITION = 1000; DEL_LED1_BLINK = 100; DEL_LED2_BLINK = 137` |
-| `ST_ACT_OFF` | `EV_ACT_CLOSE_BARRIER` | — | `ST_ACT_OFF` | `LED1_OFF; LED2_OFF` |
-| `ST_ACT_TRANSITION_OPEN` | `tick` | `DEL_ACT_TRANSITION > 1` | `ST_ACT_TRANSITION_OPEN` | `DEL_ACT_TRANSITION--; DEL_LED1_BLINK--; DEL_LED2_BLINK--` |
-| `ST_ACT_TRANSITION_OPEN` | `tick` | `DEL_LED1_BLINK == 1` | `ST_ACT_TRANSITION_OPEN` | `LED1_TOGGLE; DEL_LED1_BLINK = 100` |
-| `ST_ACT_TRANSITION_OPEN` | `tick` | `DEL_LED2_BLINK == 1` | `ST_ACT_TRANSITION_OPEN` | `LED2_TOGGLE; DEL_LED2_BLINK = 137` |
-| `ST_ACT_TRANSITION_OPEN` | `tick` | `DEL_ACT_TRANSITION == 1` | `ST_ACT_ON` | `LED1_ON; LED2_ON; DEL_ACT_TRANSITION = 0` |
-| `ST_ACT_ON` | `EV_ACT_CLOSE_BARRIER` | — | `ST_ACT_TRANSITION_CLOSE` | `DEL_ACT_TRANSITION = 1000; DEL_LED1_BLINK = 100; DEL_LED2_BLINK = 137` |
-| `ST_ACT_ON` | `EV_ACT_OPEN_BARRIER` | — | `ST_ACT_ON` | `LED1_ON; LED2_ON` |
-| `ST_ACT_TRANSITION_CLOSE` | `tick` | `DEL_ACT_TRANSITION > 1` | `ST_ACT_TRANSITION_CLOSE` | `DEL_ACT_TRANSITION--; DEL_LED1_BLINK--; DEL_LED2_BLINK--` |
-| `ST_ACT_TRANSITION_CLOSE` | `tick` | `DEL_LED1_BLINK == 1` | `ST_ACT_TRANSITION_CLOSE` | `LED1_TOGGLE; DEL_LED1_BLINK = 100` |
-| `ST_ACT_TRANSITION_CLOSE` | `tick` | `DEL_LED2_BLINK == 1` | `ST_ACT_TRANSITION_CLOSE` | `LED2_TOGGLE; DEL_LED2_BLINK = 137` |
-| `ST_ACT_TRANSITION_CLOSE` | `tick` | `DEL_ACT_TRANSITION == 1` | `ST_ACT_OFF` | `LED1_OFF; LED2_OFF; DEL_ACT_TRANSITION = 0` |
+| `ST_ACT_OFF` | `EV_ACT_OPEN_BARRIER` | — | `ST_ACT_TRANSITION_OPEN` | `LED1_OFF; LED2_ON; DEL_ACT_TRANSITION = 1500; DEL_LED_BLINK = 100` |
+| `ST_ACT_OFF` | `EV_ACT_CLOSE_BARRIER` | — | `ST_ACT_OFF` | `LED1_ON; LED2_ON` |
+| `ST_ACT_TRANSITION_OPEN` | `tick` | `DEL_ACT_TRANSITION > 1 && DEL_LED_BLINK > 1` | `ST_ACT_TRANSITION_OPEN` | `DEL_ACT_TRANSITION--; DEL_LED_BLINK--` |
+| `ST_ACT_TRANSITION_OPEN` | `tick` | `DEL_LED_BLINK == 1 && DEL_ACT_TRANSITION > 1` | `ST_ACT_TRANSITION_OPEN` | `LED1_TOGGLE; LED2_TOGGLE; DEL_LED_BLINK = 100; DEL_ACT_TRANSITION--` |
+| `ST_ACT_TRANSITION_OPEN` | `tick` | `DEL_ACT_TRANSITION == 1` | `ST_ACT_ON` | `LED1_OFF; LED2_OFF; DEL_ACT_TRANSITION = 0` |
+| `ST_ACT_ON` | `EV_ACT_CLOSE_BARRIER` | — | `ST_ACT_TRANSITION_CLOSE` | `LED1_ON; LED2_OFF; DEL_ACT_TRANSITION = 1500; DEL_LED_BLINK = 100` |
+| `ST_ACT_ON` | `EV_ACT_OPEN_BARRIER` | — | `ST_ACT_ON` | `LED1_OFF; LED2_OFF` |
+| `ST_ACT_TRANSITION_CLOSE` | `tick` | `DEL_ACT_TRANSITION > 1 && DEL_LED_BLINK > 1` | `ST_ACT_TRANSITION_CLOSE` | `DEL_ACT_TRANSITION--; DEL_LED_BLINK--` |
+| `ST_ACT_TRANSITION_CLOSE` | `tick` | `DEL_LED_BLINK == 1 && DEL_ACT_TRANSITION > 1` | `ST_ACT_TRANSITION_CLOSE` | `LED1_TOGGLE; LED2_TOGGLE; DEL_LED_BLINK = 100; DEL_ACT_TRANSITION--` |
+| `ST_ACT_TRANSITION_CLOSE` | `tick` | `DEL_ACT_TRANSITION == 1` | `ST_ACT_OFF` | `LED1_ON; LED2_ON; DEL_ACT_TRANSITION = 0` |
