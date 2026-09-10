@@ -11,8 +11,8 @@ Las posiciones del botón son los triggers (eventos) del modelo Sensor.
 
 | Evento | Descripción |
 |---|---|
-| `EV_BTN_NOT_PRESSED` | El botón se encuentra en la posición **not pressed** (no presionado). |
-| `EV_BTN_PRESSED` | El botón se encuentra en la posición **pressed** (presionado). |
+| `EV_BTN_UP` | El botón se encuentra en la posición **not pressed** (no presionado). |
+| `EV_BTN_DOWN` | El botón se encuentra en la posición **pressed** (presionado). |
 
 ### Acciones
 
@@ -20,8 +20,8 @@ Las acciones del modelo Sensor representan la detección de un cambio válido de
 
 | Acción | Descripción |
 |---|---|
-| `EV_SYS_BTN_PRESSED` | Envía al modelo System el evento correspondiente a un cambio válido hacia la posición **pressed**. |
-| `EV_SYS_BTN_NOT_PRESSED` | Envía al modelo System el evento correspondiente a un cambio válido hacia la posición **not pressed**. |
+| `EV_SYS_BTN_DOWN` | Envía al modelo System el evento correspondiente a un cambio válido hacia la posición **pressed**. |
+| `EV_SYS_BTN_UP` | Envía al modelo System el evento correspondiente a un cambio válido hacia la posición **not pressed**. |
 | `DEL_BTN_DEBOUNCE` | Variable de control utilizada para implementar el antirrebote (*debouncing*) del pulsador. Se carga con el tiempo de antirrebote y se decrementa mediante `tick`. |
 
 ### Antirrebote del pulsador
@@ -64,16 +64,16 @@ Durante los estados `ST_BTN_FALLING` y `ST_BTN_RISING` se utiliza `DEL_BTN_DEBOU
 
 | Current State | Event | [Guard] | Next State | Actions |
 |---|---|---|---|---|
-| `ST_BTN_UP` | `EV_BTN_NOT_PRESSED` | — | `ST_BTN_UP` | — |
-| `ST_BTN_UP` | `EV_BTN_PRESSED` | — | `ST_BTN_FALLING` | `DEL_BTN_DEBOUNCE_50` |
+| `ST_BTN_UP` | `EV_BTN_UP` | — | `ST_BTN_UP` | — |
+| `ST_BTN_UP` | `EV_BTN_DOWN` | — | `ST_BTN_FALLING` | `DEL_BTN_DEBOUNCE_50` |
 | `ST_BTN_FALLING` | `tick` | `DEL_BTN_DEBOUNCE > 1` | `ST_BTN_FALLING` | `DEL_BTN_DEBOUNCE--` |
-| `ST_BTN_FALLING` | `tick` | `DEL_BTN_DEBOUNCE == 1` | `ST_BTN_DOWN` | `DEL_BTN_DEBOUNCE = 0; EV_SYS_BTN_PRESSED` |
-| `ST_BTN_FALLING` | `EV_BTN_NOT_PRESSED` | — | `ST_BTN_UP` | `DEL_BTN_DEBOUNCE = 0` |
-| `ST_BTN_DOWN` | `EV_BTN_PRESSED` | — | `ST_BTN_DOWN` | — |
-| `ST_BTN_DOWN` | `EV_BTN_NOT_PRESSED` | — | `ST_BTN_RISING` | `DEL_BTN_DEBOUNCE_50` |
+| `ST_BTN_FALLING` | `tick` | `DEL_BTN_DEBOUNCE == 1` | `ST_BTN_DOWN` | `DEL_BTN_DEBOUNCE = 0; EV_SYS_BTN_DOWN` |
+| `ST_BTN_FALLING` | `EV_BTN_UP` | — | `ST_BTN_UP` | `DEL_BTN_DEBOUNCE = 0` |
+| `ST_BTN_DOWN` | `EV_BTN_DOWN` | — | `ST_BTN_DOWN` | — |
+| `ST_BTN_DOWN` | `EV_BTN_UP` | — | `ST_BTN_RISING` | `DEL_BTN_DEBOUNCE_50` |
 | `ST_BTN_RISING` | `tick` | `DEL_BTN_DEBOUNCE > 1` | `ST_BTN_RISING` | `DEL_BTN_DEBOUNCE--` |
-| `ST_BTN_RISING` | `tick` | `DEL_BTN_DEBOUNCE == 1` | `ST_BTN_UP` | `DEL_BTN_DEBOUNCE = 0; EV_SYS_BTN_NOT_PRESSED` |
-| `ST_BTN_RISING` | `EV_BTN_PRESSED` | — | `ST_BTN_DOWN` | `DEL_BTN_DEBOUNCE = 0` |
+| `ST_BTN_RISING` | `tick` | `DEL_BTN_DEBOUNCE == 1` | `ST_BTN_UP` | `DEL_BTN_DEBOUNCE = 0; EV_SYS_BTN_UP` |
+| `ST_BTN_RISING` | `EV_BTN_DOWN` | — | `ST_BTN_DOWN` | `DEL_BTN_DEBOUNCE = 0` |
 
 ### Descripción del funcionamiento
 
@@ -81,7 +81,7 @@ Durante los estados `ST_BTN_FALLING` y `ST_BTN_RISING` se utiliza `DEL_BTN_DEBOU
 
 Es el estado estable correspondiente al botón no presionado.
 
-Cuando se detecta `EV_BTN_PRESSED`, se inicia el período de antirrebote cargando `DEL_BTN_DEBOUNCE_50` y se pasa a `ST_BTN_FALLING`.
+Cuando se detecta `EV_BTN_DOWN`, se inicia el período de antirrebote cargando `DEL_BTN_DEBOUNCE_50` y se pasa a `ST_BTN_FALLING`.
 
 #### `ST_BTN_FALLING`
 
@@ -89,15 +89,15 @@ Es el estado transitorio correspondiente al accionamiento del botón.
 
 Mientras transcurre el período de antirrebote, el módulo se ejecuta cada **1 ms** mediante `tick` y decrementa `DEL_BTN_DEBOUNCE`.
 
-Cuando `DEL_BTN_DEBOUNCE == 1`, el siguiente `tick` completa los 50 ms de antirrebote. Se valida entonces el cambio, se genera `EV_SYS_BTN_PRESSED` y se pasa a `ST_BTN_DOWN`.
+Cuando `DEL_BTN_DEBOUNCE == 1`, el siguiente `tick` completa los 50 ms de antirrebote. Se valida entonces el cambio, se genera `EV_SYS_BTN_DOWN` y se pasa a `ST_BTN_DOWN`.
 
-Si durante la espera aparece `EV_BTN_NOT_PRESSED`, el cambio no se valida y se retorna a `ST_BTN_UP`.
+Si durante la espera aparece `EV_BTN_UP`, el cambio no se valida y se retorna a `ST_BTN_UP`.
 
 #### `ST_BTN_DOWN`
 
 Es el estado estable correspondiente al botón presionado.
 
-Cuando se detecta `EV_BTN_NOT_PRESSED`, se inicia nuevamente el período de antirrebote cargando `DEL_BTN_DEBOUNCE_50` y se pasa a `ST_BTN_RISING`.
+Cuando se detecta `EV_BTN_UP`, se inicia nuevamente el período de antirrebote cargando `DEL_BTN_DEBOUNCE_50` y se pasa a `ST_BTN_RISING`.
 
 #### `ST_BTN_RISING`
 
@@ -105,9 +105,9 @@ Es el estado transitorio correspondiente a la liberación del botón.
 
 Mientras transcurre el período de antirrebote, el módulo se ejecuta cada **1 ms** mediante `tick` y decrementa `DEL_BTN_DEBOUNCE`.
 
-Cuando `DEL_BTN_DEBOUNCE == 1`, el siguiente `tick` completa los 50 ms de antirrebote. Se valida entonces la liberación, se genera `EV_SYS_BTN_NOT_PRESSED` y se retorna a `ST_BTN_UP`.
+Cuando `DEL_BTN_DEBOUNCE == 1`, el siguiente `tick` completa los 50 ms de antirrebote. Se valida entonces la liberación, se genera `EV_SYS_BTN_UP` y se retorna a `ST_BTN_UP`.
 
-Si durante la espera vuelve a detectarse `EV_BTN_PRESSED`, la liberación no se valida y se retorna a `ST_BTN_DOWN`.
+Si durante la espera vuelve a detectarse `EV_BTN_DOWN`, la liberación no se valida y se retorna a `ST_BTN_DOWN`.
 
 ### Consideración sobre el `tick`
 
